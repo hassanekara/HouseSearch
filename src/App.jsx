@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className='bg-lime-200 h-1/2 p-24'>
        <h1  className='text-sm'>
         Hello my project is House Renting
        </h1>
