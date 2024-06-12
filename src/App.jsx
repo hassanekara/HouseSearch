@@ -1,17 +1,16 @@
-
 import './App.css'
+import Navigation from './components/Navigation'
+import HomePage from './pages/homePage/HomePage'
+// import Navigation from './components/Navigation'
 
 function App() {
 
   return (
     <>
-      <div className='bg-lime-200 h-1/2 p-24'>
-       <h1  className='text-sm'>
-        Hello my project is House Renting
-       </h1>
-       <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+      <div>
+        <Navigation />
+        <HomePage />
+      
       </div>
     </>
   )
