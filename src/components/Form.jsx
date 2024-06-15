@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Form = () => {
   return (
     <div
@@ -63,16 +65,18 @@ const Form = () => {
               <option value="6">6 Guests</option>
             </select>
           </div>
-          <button
-            type="submit"
-            className="w-64 h-12 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none"
-          >
-            Search
-          </button>
+          <Link to={"/houses"}>
+            <button
+              type="submit"
+              className="w-32 h-12 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none"
+            >
+              Search
+            </button>
+          </Link>
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default Form;

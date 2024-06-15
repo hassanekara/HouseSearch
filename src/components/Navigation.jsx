@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,11 +11,13 @@ const Navigation = () => {
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
-      <img
+     <Link to={"/"}>
+     <img
             src="/Images/MyLogo.png"
             alt="House Search"
             className="h-12 w-12 mr-3"
           />
+     </Link>
         <div className="block lg:hidden">
           <button
             onClick={toggleMenu}

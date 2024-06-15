@@ -1,19 +1,17 @@
-import './App.css'
-import Navigation from './components/Navigation'
-import HomePage from './pages/homePage/HomePage'
-// import Navigation from './components/Navigation'
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/homePage/HomePage";
+import FilteredHouses from "./pages/filteredHouses/FilteredHouses";
+import HouseDetails from "./pages/HouseDetails";
 function App() {
-
   return (
-    <>
-      <div>
-        <Navigation />
-        <HomePage />
-      
-      </div>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/houses" element={<FilteredHouses />} />
+        <Route path="/house/:id" element={<HouseDetails />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
