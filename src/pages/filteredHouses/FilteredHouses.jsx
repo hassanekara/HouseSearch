@@ -57,12 +57,14 @@ const FilteredHouses = () => {
               <img
                 src={house.image}
                 alt={house.location}
-                className="mb-4 rounded-md"
+                className="mb-4 rounded-md h-56 w-full"
+
+
               />
               <h2 className="mb-2 text-xl font-bold">{house.location}</h2>
               <p className="mb-2">Price: ${house.price}</p>
               <p className="mb-2">Size: {house.size} sq ft</p>
-              <p className="mb-2">{house.description}</p>
+              {/* <p className="mb-2">{house.description}</p> */}
               <button
                 onClick={() => handleViewMore(house.id)}
                 className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700"
