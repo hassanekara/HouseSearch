@@ -451,7 +451,7 @@ const houseData = [
     link: "/houses",
 
     images: [
-      "/Images/houseImages/mainImage12.jpeg",
+      "/Images/houseImages/mainImage12.jpg",
       "/Images/houseImages/house18.jpeg",
       "/Images/houseImages/house10.jpeg",
       "/Images/houseImages/house11.jpeg",
@@ -475,7 +475,7 @@ const houseData = [
     link: "/houses",
 
     images: [
-      "/Images/houseImages/mainImage1.jpeg",
+      "/Images/houseImages/mainImage14.jpg",
       "/Images/houseImages/house18.jpeg",
       "/Images/houseImages/house10.jpeg",
       "/Images/houseImages/house11.jpeg",
@@ -500,7 +500,7 @@ const houseData = [
     link: "/houses",
 
     images: [
-      "/Images/houseImages/mainImage1.jpeg",
+      "/Images/houseImages/mainImage15.jpg",
       "/Images/houseImages/house18.jpeg",
       "/Images/houseImages/house10.jpeg",
       "/Images/houseImages/house11.jpeg",
