@@ -48,7 +48,7 @@
 
 
 import { FaBell, FaHome, FaList, FaEnvelope } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const AdminLayout = ({ children }) => {
   return (
@@ -72,11 +72,35 @@ const AdminLayout = ({ children }) => {
           >
             <FaList className="inline-block mr-2" /> Houses
           </NavLink>
+
+          <NavLink
+            to="/admin/rented"
+            className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            activeClassName="bg-gray-900"
+          >
+            <FaList className="inline-block mr-2" /> Rented
+          </NavLink>
+
+          <NavLink
+            to="/admin/unrented"
+            className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            activeClassName="bg-gray-900"
+          >
+            <FaList className="inline-block mr-2" /> UnRented
+          </NavLink>
+          <NavLink
+              to="/admin/pending"
+              className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+              activeClassName="bg-gray-900"
+            >
+              <FaList className="inline-block mr-2" /> Pending
+            </NavLink>
           <NavLink
             to="/admin/submissions"
             className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
             activeClassName="bg-gray-900"
           >
+           
             <FaEnvelope className="inline-block mr-2" /> Submissions
           </NavLink>
         </nav>
@@ -92,11 +116,14 @@ const AdminLayout = ({ children }) => {
               alt="User"
               className="w-10 h-10 rounded-full"
             />
+            <Link to={"/"}>
+            <div>
+              <p>Logout</p>
+            </div>
+            </Link>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-4 bg-gray-100">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto p-4 bg-gray-100">{children}</main>
       </div>
     </div>
   );

@@ -1,14 +1,15 @@
 const houseData = [
   {
     id: 1,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 5000,
+    price: 70000,
     size: 2000,
     description:
-      "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.beautiful house in New York",
+      "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.beautiful house in Nyarugenge",
     image: "/Images/houseImages/mainImage1.jpeg",
     link: "/houses",
+    numberOfBeds:2,
 
     images: [
       "/Images/houseImages/mainImage1.jpeg",
@@ -27,14 +28,15 @@ const houseData = [
   },
   {
     id: 2,
-    location: "Los Angeles",
-    status:"rented",
-    price: 4500,
+    location: "Kicukiro",
+    status:"pending",
+    price: 46000,
     size: 1800,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage2.jpeg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -54,14 +56,15 @@ const houseData = [
   },
   {
     id: 3,
-    location: "Chicago",
+    location: "Gasabo",
     status:"rented",
-    price: 3000,
+    price: 50000,
     size: 1500,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage3.jpeg",
     link: "/houses",
+    numberOfBeds:2,
 
 
     images: [
@@ -80,14 +83,15 @@ const houseData = [
   },
   {
     id: 4,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 7000,
+    price: 15000,
     size: 2500,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage4.jpeg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -107,15 +111,16 @@ const houseData = [
   },
   {
     id: 5,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
-    price: 5200,
+    price: 33000,
     size: 2000,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage10.jpg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -145,15 +150,16 @@ const houseData = [
   },
   {
     id: 6,
-    location: "Chicago",
-    status:"pending",
-    price: 4000,
+    location: "Gasabo",
+    status:"rented",
+    price: 40000,
     size: 1700,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage11.jpg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -173,15 +179,16 @@ const houseData = [
   },
   {
     id: 7,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 4800,
+    price: 48000,
     size: 1900,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage12.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [
@@ -201,15 +208,16 @@ const houseData = [
   },
   {
     id: 8,
-    location: "Los Angeles",
-    status:"rented",
-    price: 4300,
+    location: "Kicukiro",
+    status:"unrented",
+    price: 100000,
     size: 1600,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage13.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [
@@ -229,14 +237,15 @@ const houseData = [
   },
   {
     id: 9,
-    location: "Chicago",
-    status:"pending",
-    price: 3100,
+    location: "Gasabo",
+    status:"unrented",
+    price: 150000,
     size: 1400,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage14.jpg",
     link: "/houses",
+    numberOfBeds:6,
 
 
     images: [
@@ -256,14 +265,15 @@ const houseData = [
   },
   {
     id: 10,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 6000,
+    price: 60000,
     size: 2100,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage15.jpg",
     link: "/houses",
+    numberOfBeds:2,
 
 
     images: [
@@ -283,14 +293,15 @@ const houseData = [
   },
   {
     id: 11,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
-    price: 4700,
+    price: 80000,
     size: 1800,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage16.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [
@@ -310,14 +321,15 @@ const houseData = [
   },
   {
     id: 12,
-    location: "Chicago",
+    location: "Gasabo",
     status:"pending",
-    price: 3200,
+    price: 90000,
     size: 1500,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage17.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [
@@ -337,14 +349,15 @@ const houseData = [
   },
   {
     id: 13,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 7500,
+    price: 75000,
     size: 2600,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage18.jpg",
     link: "/houses",
+    numberOfBeds:2,
 
 
     images: [
@@ -364,15 +377,16 @@ const houseData = [
   },
   {
     id: 14,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
-    price: 5100,
+    price: 25000,
     size: 1900,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage19.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [
@@ -392,15 +406,16 @@ const houseData = [
   },
   {
     id: 15,
-    location: "Chicago",
+    location: "Gasabo",
     status:"pending",
-    price: 4200,
+    price: 42000,
     size: 1600,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage20.jpg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -420,15 +435,16 @@ const houseData = [
   },
   {
     id: 16,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 4900,
+    price: 85000,
     size: 2000,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage10.jpg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -448,15 +464,16 @@ const houseData = [
   },
   {
     id: 17,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
-    price: 4400,
+    price: 160000,
     size: 1700,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
 
     image: "/Images/houseImages/mainImage11.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [
@@ -476,14 +493,15 @@ const houseData = [
   },
   {
     id: 18,
-    location: "Chicago",
+    location: "Gasabo",
     status:"pending",
-    price: 3300,
+    price: 13300,
     size: 1400,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage12.jpg",
     link: "/houses",
+    numberOfBeds:4,
 
 
     images: [
@@ -502,14 +520,15 @@ const houseData = [
   },
   {
     id: 19,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
-    price: 6200,
+    price: 16200,
     size: 2200,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage14.jpg",
     link: "/houses",
+    numberOfBeds:1,
 
 
     images: [
@@ -529,14 +548,15 @@ const houseData = [
   },
   {
     id: 20,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
-    price: 4600,
+    price: 46000,
     size: 1800,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage15.jpg",
     link: "/houses",
+    numberOfBeds:3,
 
 
     images: [

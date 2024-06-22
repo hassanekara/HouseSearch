@@ -30,7 +30,7 @@ const FilteredHouses = () => {
 
   const handleCardClick = (house) => {
     alert(
-      `House details:\nLocation: ${house.location}\nPrice: $${house.price}\nSize: ${house.size} sq ft\nDescription: ${house.description}`
+      `House details:\nLocation: ${house.location}\nPrice: Rwf ${house.price}\nSize: ${house.size} sq ft\nDescription: ${house.description}`
     );
   };
   const navigate = useNavigate();
@@ -62,8 +62,9 @@ const FilteredHouses = () => {
 
               />
               <h2 className="mb-2 text-xl font-bold">{house.location}</h2>
-              <p className="mb-2">Price: ${house.price}</p>
+              <p className="mb-2">Price: Rwf {house.price} </p>
               <p className="mb-2">Size: {house.size} sq ft</p>
+              <p className="mb-2" >Number of beds: {house.numberOfBeds} Bed</p>
               {/* <p className="mb-2">{house.description}</p> */}
               <button
                 onClick={() => handleViewMore(house.id)}

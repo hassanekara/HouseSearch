@@ -51,9 +51,10 @@ const Filter = ({ onFilter }) => {
           className="px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="">Min Price</option>
-          <option value="1000">$1,000</option>
-          <option value="2000">$2,000</option>
-          <option value="3000">$3,000</option>
+          <option value="10000">RWf 10,000</option>
+          <option value="50000">RWf 50,000</option>
+          <option value="80000">RWf 80,000</option>
+          <option value="100000">RWf 100,000</option>
         </select>
         <select
           value={maxPrice}
@@ -61,13 +62,14 @@ const Filter = ({ onFilter }) => {
           className="px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
         >
           <option value="">Max Price</option>
-          <option value="5000">$5,000</option>
-          <option value="10000">$10,000</option>
-          <option value="15000">$15,000</option>
+          <option value="50000">RWf 50,000</option>
+          <option value="80000">RWf 80,000</option>
+          <option value="100000">RWf 100,000</option>
+          <option value="150000">RWf 150,000</option>
         </select>
       </div>
       <div className="mb-4">
-        {['New York', 'Los Angeles', 'Chicago'].map((loc) => (
+        {['Gasabo', 'Nyarugenge', 'Kicukiro'].map((loc) => (
           <label key={loc} className="block mb-2">
             <input
               type="radio"
