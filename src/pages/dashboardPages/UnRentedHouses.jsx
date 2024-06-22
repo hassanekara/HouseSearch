@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
@@ -18,7 +19,7 @@ import update from "immutability-helper";
 import houseData from "../../database/staticDatabase/houseData";
 import { useNavigate } from "react-router-dom";
 
-const Houses = () => {
+const RentedHouses = () => {
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [rowData, setRowData] = useState(houseData);
   const [locationFilter, setlocationFilter] = useState("");
@@ -31,8 +32,11 @@ const Houses = () => {
     setEditingRowIndex(rowIndex);
   };
 
+  const filteredPendingDdata = rowData.filter((pendingHouse)=> pendingHouse.status === "unrented");
+  // console.log("This is pending data", filteredPendingDdata);
+  
   const handleDelete = (rowIndex) => {
-    const updatedData = rowData.filter((_, index) => index !== rowIndex);
+    const updatedData = filteredPendingDdata.filter((_, index) => index !== rowIndex);
     setRowData(updatedData);
   };
 
@@ -69,9 +73,9 @@ const Houses = () => {
 
   const filteredData = useMemo(() => {
     if (locationFilter) {
-      return rowData.filter((house) => house.location === locationFilter);
+      return filteredPendingDdata.filter((house) => house.location === locationFilter);
     }
-    return rowData;
+    return filteredPendingDdata;
   }, [rowData, locationFilter]);
 
   const data = useMemo(() => filteredData, [filteredData]);
@@ -190,7 +194,7 @@ const Houses = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="p-4 md:p-8 bg-gray-100">
         <div className="max-w-6xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Houses</h2>
+          <h2 className="text-2xl font-bold mb-4">RentedHouses</h2>
           <div className="flex justify-between mb-4">
             <select
               value={locationFilter}
@@ -302,4 +306,6 @@ const Houses = () => {
   );
 };
 
-export default Houses;
+export default RentedHouses;
+
+

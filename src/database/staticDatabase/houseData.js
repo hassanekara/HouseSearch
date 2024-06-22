@@ -1,12 +1,12 @@
 const houseData = [
   {
     id: 1,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 5000,
     size: 2000,
     description:
-      "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.beautiful house in New York",
+      "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.beautiful house in Nyarugenge",
     image: "/Images/houseImages/mainImage1.jpeg",
     link: "/houses",
 
@@ -27,8 +27,8 @@ const houseData = [
   },
   {
     id: 2,
-    location: "Los Angeles",
-    status:"rented",
+    location: "Kicukiro",
+    status:"pending",
     price: 4500,
     size: 1800,
     description:
@@ -54,7 +54,7 @@ const houseData = [
   },
   {
     id: 3,
-    location: "Chicago",
+    location: "Gasabo",
     status:"rented",
     price: 3000,
     size: 1500,
@@ -80,7 +80,7 @@ const houseData = [
   },
   {
     id: 4,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 7000,
     size: 2500,
@@ -107,7 +107,7 @@ const houseData = [
   },
   {
     id: 5,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
     price: 5200,
     size: 2000,
@@ -145,8 +145,8 @@ const houseData = [
   },
   {
     id: 6,
-    location: "Chicago",
-    status:"pending",
+    location: "Gasabo",
+    status:"rented",
     price: 4000,
     size: 1700,
     description:
@@ -173,7 +173,7 @@ const houseData = [
   },
   {
     id: 7,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 4800,
     size: 1900,
@@ -201,8 +201,8 @@ const houseData = [
   },
   {
     id: 8,
-    location: "Los Angeles",
-    status:"rented",
+    location: "Kicukiro",
+    status:"unrented",
     price: 4300,
     size: 1600,
     description:
@@ -229,8 +229,8 @@ const houseData = [
   },
   {
     id: 9,
-    location: "Chicago",
-    status:"pending",
+    location: "Gasabo",
+    status:"unrented",
     price: 3100,
     size: 1400,
     description:
@@ -256,7 +256,7 @@ const houseData = [
   },
   {
     id: 10,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 6000,
     size: 2100,
@@ -283,7 +283,7 @@ const houseData = [
   },
   {
     id: 11,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
     price: 4700,
     size: 1800,
@@ -310,7 +310,7 @@ const houseData = [
   },
   {
     id: 12,
-    location: "Chicago",
+    location: "Gasabo",
     status:"pending",
     price: 3200,
     size: 1500,
@@ -337,7 +337,7 @@ const houseData = [
   },
   {
     id: 13,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 7500,
     size: 2600,
@@ -364,7 +364,7 @@ const houseData = [
   },
   {
     id: 14,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
     price: 5100,
     size: 1900,
@@ -392,7 +392,7 @@ const houseData = [
   },
   {
     id: 15,
-    location: "Chicago",
+    location: "Gasabo",
     status:"pending",
     price: 4200,
     size: 1600,
@@ -420,7 +420,7 @@ const houseData = [
   },
   {
     id: 16,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 4900,
     size: 2000,
@@ -448,7 +448,7 @@ const houseData = [
   },
   {
     id: 17,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
     price: 4400,
     size: 1700,
@@ -476,7 +476,7 @@ const houseData = [
   },
   {
     id: 18,
-    location: "Chicago",
+    location: "Gasabo",
     status:"pending",
     price: 3300,
     size: 1400,
@@ -502,7 +502,7 @@ const houseData = [
   },
   {
     id: 19,
-    location: "New York",
+    location: "Nyarugenge",
     status:"unrented",
     price: 6200,
     size: 2200,
@@ -529,7 +529,7 @@ const houseData = [
   },
   {
     id: 20,
-    location: "Los Angeles",
+    location: "Kicukiro",
     status:"rented",
     price: 4600,
     size: 1800,
