@@ -50,7 +50,7 @@ const Navigation = () => {
             </li>
             <Link to={"/admin"}>
             <li className="text-white lg:mx-2 my-2 lg:my-0">
-              <a href="#contact" className="block px-3 py-2 rounded-md hover:bg-gray-700">Admin</a>
+              <a href="#contact" className="block px-3 py-2 rounded-md hover:bg-gray-700">Admin.....</a>
             </li>
             </Link>
           </ul>

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
@@ -12,6 +11,12 @@ import Navigation from "../components/Navigation";
 const HouseDetails = () => {
   const { id } = useParams();
   const house = houseData.find((h) => h.id === parseInt(id));
+  const [checkStatus] = useState(house.status);
+  const [checkPrice] = useState(house.price);
+  const [checkLocation] = useState(house.location);
+  const [checkSize] = useState(house.size);
+  const [checkDescription] = useState(house.description);
+
   const [selectedImage, setSelectedImage] = useState(house.images[0]);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
@@ -44,7 +49,16 @@ const HouseDetails = () => {
     e.preventDefault();
     if (validateForm()) {
       const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-      submissions.push({ ...form, houseId: id, date: new Date() });
+      submissions.push({ //Send All Data to Local Storage
+        ...form,
+        houseId: id,
+        houseStatus: checkStatus,
+        housePrice: checkPrice,
+        houseDescription: checkDescription,
+        houseSize: checkSize,
+        houseLocation: checkLocation,
+        date: new Date(),
+      });
       localStorage.setItem("submissions", JSON.stringify(submissions));
       setForm({ name: "", email: "", message: "" });
       alert("Form submitted successfully");
@@ -89,9 +103,11 @@ const HouseDetails = () => {
             </Slider>
           </div>
           <h2 className="text-2xl font-bold mb-4">{house.location}</h2>
-          <p className="text-xl mb-2">Price: ${house.price}</p>
+          <p className="text-xl mb-2">Price: Rwf {house.price}</p>
           <p className="text-xl mb-2">Size: {house.size} sq ft</p>
-          <p className="text-xl mb-2">Number of Beds: {house.numberOfBeds} Beds</p>
+          <p className="text-xl mb-2">
+            Number of Beds: {house.numberOfBeds} Beds
+          </p>
           <p className="mb-4">{house.description}</p>
           <div className="mb-4">
             <h3 className="text-xl font-bold mb-2">More Details</h3>
