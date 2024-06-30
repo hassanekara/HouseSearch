@@ -16,7 +16,8 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import houseData from "../../database/staticDatabase/houseData";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button1 from "../../components/Button1";
 
 const Houses = () => {
   const [editingRowIndex, setEditingRowIndex] = useState(null);
@@ -190,7 +191,12 @@ const Houses = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="p-4 md:p-8 bg-gray-100">
         <div className="max-w-6xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Houses</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold mb-4">Houses</h2>
+            <Link to={"/admin/add-new-house"}>
+              <Button1 title={"Add New House"} icon={"+"} />
+            </Link>
+          </div>
           <div className="flex justify-between mb-4">
             <select
               value={locationFilter}

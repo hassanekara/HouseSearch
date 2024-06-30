@@ -11,6 +11,7 @@ function App() {
         <Route path="/houses" element={<FilteredHouses />} />
         <Route path="/house/:id" element={<HouseDetails />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
+
       </Routes>
     </Router>
   );
