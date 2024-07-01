@@ -1,72 +1,235 @@
-import { useState } from "react";
-import houseData from "../database/staticDatabase/houseData";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import houseData from '../database/staticDatabase/houseData';
+
+const PrevArrow = ({ onClick }) => (
+  <button
+    onClick={onClick}
+    className="absolute left-0 z-10 p-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2 hover:bg-blue-700"
+    style={{ zIndex: 1 }}
+  >
+    <FaArrowLeft className="text-white" />
+  </button>
+);
+
+const NextArrow = ({ onClick }) => (
+  <button
+    onClick={onClick}
+    className="absolute right-0 z-10 p-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2 hover:bg-blue-700"
+    style={{ zIndex: 1 }}
+  >
+    <FaArrowRight className="text-white" />
+  </button>
+);
 
 const HouseCards = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const cardsPerPage = 3;
+  const [cardsToShow, setCardsToShow] = useState(3);
+  const navigate = useNavigate();
 
-  const handleNext = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex + cardsPerPage) % houseData.length
-    );
+  const updateCardsToShow = () => {
+    if (window.innerWidth >= 1024) {
+      setCardsToShow(3); // Large screens
+    } else if (window.innerWidth >= 768) {
+      setCardsToShow(2); // Medium screens
+    } else {
+      setCardsToShow(1); // Small screens
+    }
   };
 
-  const handlePrev = () => {
-    setCurrentIndex(
-      (prevIndex) =>
-        (prevIndex - cardsPerPage + houseData.length) % houseData.length
-    );
+  useEffect(() => {
+    updateCardsToShow();
+    window.addEventListener('resize', updateCardsToShow);
+    return () => {
+      window.removeEventListener('resize', updateCardsToShow);
+    };
+  }, []);
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: cardsToShow,
+    slidesToScroll: 3,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  const handleViewMore = (id) => {
+    navigate(`/house/${id}`);
   };
 
   return (
     <div className="flex flex-col items-center py-8 bg-gray-100">
       <h2 className="text-3xl mb-6 text-gray-800">Available Houses</h2>
-      <div className="relative w-full max-w-6xl overflow-hidden">
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{
-            transform: `translateX(-${currentIndex * (100 / cardsPerPage)}%)`,
-          }}
-        >
+      <div className="relative w-full max-w-6xl">
+        <Slider {...settings}>
           {houseData.map((house) => (
-            <div key={house.id} className="w-full md:w-1/3 flex-shrink-0 px-2">
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img
-                  src={house.image}
-                  alt={house.place}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold">{house.place}</h3>
-                  <p className="text-gray-600">{house.price}</p>
-                  <a
-                    href={house.link}
-                    className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                  >
-                    View Details
-                  </a>
-                </div>
-              </div>
+            <div
+              key={house.id}
+              className="p-4 bg-white rounded-lg shadow-md cursor-pointer mx-2"
+            >
+              <img
+                src={house.image}
+                alt={house.location}
+                className="mb-4 w-full h-56 object-cover rounded-md"
+              />
+              <h2 className="mb-2 text-xl font-bold">{house.location}</h2>
+              <p className="mb-2">Price: ${house.price}</p>
+              <p className="mb-2">Size: {house.size} sq ft</p>
+              {/* <p className="mb-2">{house.description}</p> */}
+              <button
+                onClick={() => handleViewMore(house.id)}
+                className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700"
+              >
+                View More
+              </button>
             </div>
           ))}
-        </div>
-      </div>
-      <div className="flex mt-4 space-x-4">
-        <button
-          onClick={handlePrev}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNext}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-        >
-          Next
-        </button>
+        </Slider>
       </div>
     </div>
   );
 };
 
 export default HouseCards;
+
+// import { useState, useEffect } from "react";
+// import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+// import houseData from "../database/staticDatabase/houseData";
+
+// const PrevArrow = ({ onClick }) => (
+//   <button
+//     onClick={onClick}
+//     className="absolute left-0 z-10 p-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2 hover:bg-blue-700"
+//     style={{ zIndex: 1 }}
+//   >
+//     <FaArrowLeft className="text-white" />
+//   </button>
+// );
+
+// const NextArrow = ({ onClick }) => (
+//   <button
+//     onClick={onClick}
+//     className="absolute right-0 z-10 p-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2 hover:bg-blue-700"
+//     style={{ zIndex: 1 }}
+//   >
+//     <FaArrowRight className="text-white" />
+//   </button>
+// );
+
+// const HouseCards = () => {
+//   const [cardsToShow, setCardsToShow] = useState(3);
+
+//   const updateCardsToShow = () => {
+//     if (window.innerWidth >= 1024) {
+//       setCardsToShow(3); // Large screens
+//     } else if (window.innerWidth >= 768) {
+//       setCardsToShow(2); // Medium screens
+//     } else {
+//       setCardsToShow(1); // Small screens
+//     }
+//   };
+
+//   useEffect(() => {
+//     updateCardsToShow();
+//     window.addEventListener("resize", updateCardsToShow);
+//     return () => {
+//       window.removeEventListener("resize", updateCardsToShow);
+//     };
+//   }, []);
+
+//   const settings = {
+//     dots: false,
+//     infinite: true,
+//     speed: 500,
+//     slidesToScroll: 3,
+//     slidesToShow: cardsToShow,
+//     nextArrow: <NextArrow />,
+//     prevArrow: <PrevArrow />,
+//     responsive: [
+//       {
+//         breakpoint: 1024,
+//         settings: {
+//           slidesToShow: 3,
+//           slidesToScroll: 3,
+//         },
+//       },
+//       {
+//         breakpoint: 768,
+//         settings: {
+//           slidesToShow: 2,
+//           slidesToScroll: 2,
+//         },
+//       },
+//       {
+//         breakpoint: 480,
+//         settings: {
+//           slidesToShow: 1,
+//           slidesToScroll: 1,
+//         },
+//       },
+//     ],
+//   };
+
+//   return (
+//     <div className="flex flex-col items-center py-8 bg-gray-100">
+//       <h2 className="text-3xl mb-6 text-gray-800">Available Houses</h2>
+//       <div className="relative w-full max-w-6xl ">
+//         <Slider {...settings}>
+//           {houseData.map((house) => (
+//             <div
+//               key={house.id}
+//               className="p-4 bg-white rounded-lg shadow-md cursor-pointer ml-6"
+//             >
+//               <img
+//                 src={house.image}
+//                 alt={house.location}
+//                 className="mb-4 w-full h-48 object-cover rounded-md"
+//               />
+//               <h2 className="mb-2 text-xl font-bold">{house.location}</h2>
+//               <p className="mb-2">Price: ${house.price}</p>
+//               <p className="mb-2">Size: {house.size} sq ft</p>
+//               <p className="mb-2">{house.description}</p>
+//               <button className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700">
+//                 View More
+//               </button>
+//             </div>
+//           ))}
+//         </Slider>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default HouseCards;

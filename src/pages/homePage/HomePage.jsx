@@ -1,22 +1,25 @@
 import Footer from "../../components/Footer";
 import Form from "../../components/Form"
 import HouseCards from "../../components/HouseCards";
+import Navigation from "../../components/Navigation";
 import AboutSection from "./AboutSection";
 import ContactPage from "./ContactPage";
 
 function HomePage() {
   return (
     <div>
-      <section>
+        <Navigation />
+
+      <section id="home">
         <Form />
       </section>
-      <section>
+      <section id="services">
         <HouseCards />
       </section>
-      <section>
+      <section id="about">
         <AboutSection />
       </section>
-      <section>
+      <section id="contact">
         <ContactPage />
       </section>
       <section>
