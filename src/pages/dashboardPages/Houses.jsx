@@ -16,19 +16,20 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import houseData from "../../database/staticDatabase/houseData";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button1 from "../../components/Button1";
 
 const Houses = () => {
-  const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [rowData, setRowData] = useState(houseData);
-  const [locationFilter, setlocationFilter] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
+  const navigate = useNavigate();
 
-  const handleViewMore = (house) => {
-    navigate(`/house/${house.id}`);
+  const handleViewMore = (houseId) => {
+    navigate(`/admin/view-house/${houseId}`);
   };
 
-  const handleEdit = (rowIndex) => {
-    setEditingRowIndex(rowIndex);
+  const handleEdit = (houseId) => {
+    navigate(`/admin/edit-house/${houseId}`);
   };
 
   const handleDelete = (rowIndex) => {
@@ -41,7 +42,7 @@ const Houses = () => {
       { Header: "Location", accessor: "location" },
       { Header: "Price", accessor: "price" },
       { Header: "Size (sq ft)", accessor: "size" },
-      { Header: "Description", accessor: "description" },
+      { Header: "Bed Rooms", accessor: "numberOfBeds" },
       { Header: "Status", accessor: "status" },
       {
         Header: "Actions",
@@ -50,11 +51,11 @@ const Houses = () => {
           <div className="flex space-x-2">
             <FaEye
               className="text-blue-500 cursor-pointer"
-              onClick={() => handleViewMore(row.original)}
+              onClick={() => handleViewMore(row.original.id)}
             />
             <FaEdit
               className="text-yellow-500 cursor-pointer"
-              onClick={() => handleEdit(row.index)}
+              onClick={() => handleEdit(row.original.id)}
             />
             <FaTrash
               className="text-red-500 cursor-pointer"
@@ -75,7 +76,6 @@ const Houses = () => {
   }, [rowData, locationFilter]);
 
   const data = useMemo(() => filteredData, [filteredData]);
-  const navigate = useNavigate();
 
   const moveColumn = (dragIndex, hoverIndex) => {
     const dragColumn = columns[dragIndex];
@@ -133,16 +133,6 @@ const Houses = () => {
     }
   );
 
-  const handleRowClick = (rowIndex) => {
-    setEditingRowIndex(rowIndex);
-  };
-
-  const handleInputChange = (rowIndex, columnId, value) => {
-    const newData = [...rowData];
-    newData[rowIndex][columnId] = value;
-    setRowData(newData);
-  };
-
   const DragableHeader = ({ column, index }) => {
     const ref = React.useRef(null);
     const [, drop] = useDrop({
@@ -190,17 +180,33 @@ const Houses = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="p-4 md:p-8 bg-gray-100">
         <div className="max-w-6xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Houses</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold mb-4">Houses</h2>
+            <Link to={"/admin/add-new-house"}>
+              <Button1 title={"Add New House"} icon={"+"} />
+            </Link>
+          </div>
           <div className="flex justify-between mb-4">
             <select
               value={locationFilter}
-              onChange={(e) => setlocationFilter(e.target.value)}
+              onChange={(e) => setLocationFilter(e.target.value)}
               className="p-2 border border-gray-300 rounded-md"
             >
               <option value="">All</option>
               <option value="Kicukiro">Kicukiro</option>
               <option value="Nyarugenge">Nyarugenge</option>
               <option value="Gasabo">Gasabo</option>
+            </select>
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+              className="p-2 border border-gray-300 rounded-md"
+            >
+              {[5,10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
             </select>
           </div>
           <table
@@ -226,27 +232,13 @@ const Houses = () => {
                   <tr
                     {...row.getRowProps()}
                     className="hover:bg-gray-100"
-                    onClick={() => handleRowClick(i)}
                   >
                     {row.cells.map((cell) => (
                       <td
                         {...cell.getCellProps()}
                         className="p-2 border border-gray-300"
                       >
-                        {editingRowIndex === i ? (
-                          <input
-                            value={cell.value}
-                            onChange={(e) =>
-                              handleInputChange(
-                                i,
-                                cell.column.id,
-                                e.target.value
-                              )
-                            }
-                          />
-                        ) : (
-                          cell.render("Cell")
-                        )}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>
@@ -254,27 +246,7 @@ const Houses = () => {
               })}
             </tbody>
           </table>
-          <div className="flex justify-between items-center py-4">
-            <div>
-              <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                {"<<"}
-              </button>
-              <button
-                onClick={() => previousPage()}
-                disabled={!canPreviousPage}
-              >
-                {"<"}
-              </button>
-              <button onClick={() => nextPage()} disabled={!canNextPage}>
-                {">"}
-              </button>
-              <button
-                onClick={() => gotoPage(pageCount - 1)}
-                disabled={!canNextPage}
-              >
-                {">>"}
-              </button>
-            </div>
+          <div className="flex justify-between mt-4">
             <div>
               Page{" "}
               <strong>
@@ -282,18 +254,23 @@ const Houses = () => {
               </strong>
             </div>
             <div>
-              <select
-                value={pageSize}
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value));
-                }}
+              <button
+                onClick={() => previousPage()}
+                disabled={!canPreviousPage}
+                className="p-2 border border-gray-300 rounded-md"
               >
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
-                    Show {pageSize}
-                  </option>
-                ))}
-              </select>
+                Previous
+              </button>
+              <button
+                onClick={() => nextPage()}
+                disabled={!canNextPage}
+                className="p-2 border border-gray-300 rounded-md"
+              >
+                Next
+              </button>
+            </div>
+            <div>
+              Showing {page.length} of {rows.length} results
             </div>
           </div>
         </div>

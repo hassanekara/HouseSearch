@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
@@ -7,11 +6,17 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import houseData from "../database/staticDatabase/houseData";
-import Navigation from "../components/Navigation";
+import SecondNavigation from "../components/SecondNavigation";
 
 const HouseDetails = () => {
   const { id } = useParams();
   const house = houseData.find((h) => h.id === parseInt(id));
+  const [checkStatus] = useState(house.status);
+  const [checkPrice] = useState(house.price);
+  const [checkLocation] = useState(house.location);
+  const [checkSize] = useState(house.size);
+  const [checkDescription] = useState(house.description);
+
   const [selectedImage, setSelectedImage] = useState(house.images[0]);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
@@ -44,7 +49,16 @@ const HouseDetails = () => {
     e.preventDefault();
     if (validateForm()) {
       const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-      submissions.push({ ...form, houseId: id, date: new Date() });
+      submissions.push({ //Send All Data to Local Storage
+        ...form,
+        houseId: id,
+        houseStatus: checkStatus,
+        housePrice: checkPrice,
+        houseDescription: checkDescription,
+        houseSize: checkSize,
+        houseLocation: checkLocation,
+        date: new Date(),
+      });
       localStorage.setItem("submissions", JSON.stringify(submissions));
       setForm({ name: "", email: "", message: "" });
       alert("Form submitted successfully");
@@ -64,7 +78,8 @@ const HouseDetails = () => {
 
   return (
     <div>
-      <Navigation />
+           <SecondNavigation />
+
 
       <div className="p-4 md:p-8 bg-gray-100">
         <div className="max-w-4xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
@@ -89,7 +104,7 @@ const HouseDetails = () => {
             </Slider>
           </div>
           <h2 className="text-2xl font-bold mb-4">{house.location}</h2>
-          <p className="text-xl mb-2">Price: RWf{house.price}</p>
+          <p className="text-xl mb-2">Price: Rwf {house.price}</p>
           <p className="text-xl mb-2">Size: {house.size} sq ft</p>
           <p className="text-xl mb-2">
             Number of Beds: {house.numberOfBeds} Beds

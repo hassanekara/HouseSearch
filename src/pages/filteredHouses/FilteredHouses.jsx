@@ -5,6 +5,7 @@ import Filter from "../../components/Filter";
 import Navigation from "../../components/Navigation";
 import houseData from "../../database/staticDatabase/houseData";
 import { useNavigate } from 'react-router-dom';
+import SecondNavigation from "../../components/SecondNavigation";
 const FilteredHouses = () => {
   const [houses, setHouses] = useState(houseData);
 
@@ -41,7 +42,7 @@ const FilteredHouses = () => {
   return (
     <div>
       <nav>
-        <Navigation />
+      <SecondNavigation />
       </nav>
       <div className="min-h-screen p-8 bg-gray-100">
         <div className="mb-8">

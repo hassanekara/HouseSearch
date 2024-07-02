@@ -6,6 +6,9 @@ import Submissions from './Submissions';
 import RentedHouses from './RentedHouses';
 import UnRentedHouses from './UnRentedHouses';
 import PendingHouses from './PendingHouses';
+import AddNewHouse from './AddNewHouse';
+import EditHouse from './EditHouse';
+import ViewHouse from './ViewHouse';
 
 const AdminDashboard = () => {
   return (
@@ -17,6 +20,9 @@ const AdminDashboard = () => {
         <Route path="rented" element={<RentedHouses />} />
         <Route path="unrented" element={<UnRentedHouses />} />
         <Route path="pending" element={<PendingHouses />} />
+        <Route path="add-new-house" element={<AddNewHouse />} />
+        <Route path="view-house/:id" element={<ViewHouse />} />
+        <Route path="edit-house/:id" element={<EditHouse />} />
         <Route path="*" element={<Navigate to="overview" />} />
       </Routes>
     </AdminLayout>
