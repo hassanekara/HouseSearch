@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navigation = () => {
+const SecondNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -36,18 +36,6 @@ const Navigation = () => {
         </div>
         <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} w-full lg:w-auto`}>
           <ul className="lg:flex lg:items-center">
-            <li className="text-white lg:mx-2 my-2 lg:my-0">
-              <a href="#home" className="block px-3 py-2 rounded-md hover:bg-gray-700">Home</a>
-            </li>
-            <li className="text-white lg:mx-2 my-2 lg:my-0">
-              <a href="#about" className="block px-3 py-2 rounded-md hover:bg-gray-700">About</a>
-            </li>
-            <li className="text-white lg:mx-2 my-2 lg:my-0">
-              <a href="#services" className="block px-3 py-2 rounded-md hover:bg-gray-700">Services</a>
-            </li>
-            <li className="text-white lg:mx-2 my-2 lg:my-0">
-              <a href="#contact" className="block px-3 py-2 rounded-md hover:bg-gray-700">Contact</a>
-            </li>
             <Link to={"/sign-in"}>
             <li className="text-white lg:mx-2 my-2 lg:my-0">
               <a href="#contact" className="block px-3 py-2 rounded-md hover:bg-gray-700">Admin.....</a>
@@ -60,4 +48,4 @@ const Navigation = () => {
   );
 }
 
-export default Navigation;
+export default SecondNavigation;

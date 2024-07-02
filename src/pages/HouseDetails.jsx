@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import houseData from "../database/staticDatabase/houseData";
-import Navigation from "../components/Navigation";
+import SecondNavigation from "../components/SecondNavigation";
 
 const HouseDetails = () => {
   const { id } = useParams();
@@ -78,7 +78,8 @@ const HouseDetails = () => {
 
   return (
     <div>
-      <Navigation />
+           <SecondNavigation />
+
 
       <div className="p-4 md:p-8 bg-gray-100">
         <div className="max-w-4xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
