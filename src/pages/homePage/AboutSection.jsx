@@ -26,7 +26,7 @@ const AboutSection = () => {
           hassle-free.
         </p>
         <p className="text-gray-600">
-          Join us today and find your dream home with Us!
+          Join us today and find your dream home with Us! NHK
         </p>
       </div>
     </div>

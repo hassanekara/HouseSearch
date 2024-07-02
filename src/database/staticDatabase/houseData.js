@@ -86,7 +86,7 @@ const houseData = [
     location: "Nyarugenge",
     status:"unrented",
     price: 15000,
-    size: 2500,
+    size: 25000,
     description:
       "This charming 3-bedroom, 2-bathroom home offers a spacious open floor plan with a modern kitchen, featuring stainless steel appliances and granite countertops.",
     image: "/Images/houseImages/mainImage4.jpeg",
