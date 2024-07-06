@@ -103,6 +103,15 @@ const AdminLayout = ({ children }) => {
            
             <FaEnvelope className="inline-block mr-2" /> Submissions
           </NavLink>
+
+          <NavLink
+            to="/admin/chart-with-landlord"
+            className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            activeClassName="bg-gray-900"
+          >
+           
+            <FaEnvelope className="inline-block mr-2" /> Land Rord
+          </NavLink>
         </nav>
       </aside>
       <div className="flex flex-col flex-1 overflow-hidden">

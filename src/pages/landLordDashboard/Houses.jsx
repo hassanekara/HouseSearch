@@ -25,11 +25,11 @@ const Houses = () => {
   const navigate = useNavigate();
 
   const handleViewMore = (houseId) => {
-    navigate(`/admin/view-house/${houseId}`);
+    navigate(`/landlord/view-house/${houseId}`);
   };
 
   const handleEdit = (houseId) => {
-    navigate(`/admin/edit-house/${houseId}`);
+    navigate(`/landlord/edit-house/${houseId}`);
   };
 
   const handleDelete = (rowIndex) => {
@@ -39,7 +39,6 @@ const Houses = () => {
 
   const columns = useMemo(
     () => [
-      { Header: "Id", accessor: "id" },
       { Header: "Location", accessor: "location" },
       { Header: "Price", accessor: "price" },
       { Header: "Size (sq ft)", accessor: "size" },
@@ -183,7 +182,7 @@ const Houses = () => {
         <div className="max-w-6xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold mb-4">Houses</h2>
-            <Link to={"/admin/add-new-house"}>
+            <Link to={"/landlord/add-new-house"}>
               <Button1 title={"Add New House"} icon={"+"} />
             </Link>
           </div>

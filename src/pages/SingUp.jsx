@@ -1,9 +1,11 @@
 /* eslint-disable no-undef */
-import { useState } from "react";
+import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const SignIn = () => {
+const SignUp = () => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [telephone, setTelephone] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -11,11 +13,22 @@ const SignIn = () => {
   const validateForm = () => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const telephoneRegex = /^[0-9]{10}$/;
+
+    if (!fullName) {
+      errors.fullName = "Full Name is required";
+    }
 
     if (!email) {
       errors.email = "Email is required";
     } else if (!emailRegex.test(email)) {
       errors.email = "Invalid email address";
+    }
+
+    if (!telephone) {
+      errors.telephone = "Telephone is required";
+    } else if (!telephoneRegex.test(telephone)) {
+      errors.telephone = "Invalid telephone number";
     }
 
     if (!password) {
@@ -34,28 +47,22 @@ const SignIn = () => {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      const userData = JSON.parse(localStorage.getItem("userData"));
-
-      if (email === "mhthodol@gmail.com" && password === "123456") {
-        navigate("/admin/overview");
-      } else if (
-        userData &&
-        userData.email === email &&
-        userData.password === password
-      ) {
-        navigate("/landlord/overview");
-      } else {
-        alert("Invalid credentials!");
-      }
+      const userData = { fullName, email, telephone, password };
+      localStorage.setItem("userData", JSON.stringify(userData));
+      const sampleLandlords = [
+        { fullName: fullName, email: email }
+      ];
+      localStorage.setItem("landlords", JSON.stringify(sampleLandlords));
     }
-  };
+      navigate("/sign-in");
+    };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 sm:flex-row">
       <div className="w-full sm:w-1/2">
         <img
           src="/Images/AboutImage.png"
-          alt="Sign In"
+          alt="Sign Up"
           className="object-cover w-full h-full"
         />
       </div>
@@ -73,8 +80,24 @@ const SignIn = () => {
           className="p-8 bg-white rounded-lg shadow-md"
         >
           <h2 className="mb-6 text-2xl font-bold text-center">
-            Get Logged In
+            Sign Up
           </h2>
+          <div className="mb-4">
+            <label className="block mb-1 text-sm font-medium text-gray-700">
+              Full Name
+            </label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
+                errors.fullName ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.fullName && (
+              <p className="mt-1 text-xs text-red-500">{errors.fullName}</p>
+            )}
+          </div>
           <div className="mb-4">
             <label className="block mb-1 text-sm font-medium text-gray-700">
               Email
@@ -89,6 +112,22 @@ const SignIn = () => {
             />
             {errors.email && (
               <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 text-sm font-medium text-gray-700">
+              Telephone
+            </label>
+            <input
+              type="tel"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
+                errors.telephone ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.telephone && (
+              <p className="mt-1 text-xs text-red-500">{errors.telephone}</p>
             )}
           </div>
           <div className="mb-6">
@@ -111,15 +150,12 @@ const SignIn = () => {
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            Sign In
+            Sign Up
           </button>
           <div className="py-2">
-            <p>
-              Is this your first time?{" "}
-              <Link to={"/sign-up"}>
-                <span>Create an Account</span>
-              </Link>
-            </p>
+            <p>Do you Already Have an Account ?   <Link to={"/sign-in"}>
+              <span>Sign In</span>
+            </Link> </p>
           </div>
         </form>
       </div>
@@ -127,4 +163,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
