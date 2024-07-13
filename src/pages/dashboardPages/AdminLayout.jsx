@@ -89,18 +89,17 @@ const AdminLayout = ({ children }) => {
             <FaList className="inline-block mr-2" /> UnRented
           </NavLink>
           <NavLink
-              to="/admin/pending"
-              className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
-              activeClassName="bg-gray-900"
-            >
-              <FaList className="inline-block mr-2" /> Pending
-            </NavLink>
+            to="/admin/pending"
+            className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            activeClassName="bg-gray-900"
+          >
+            <FaList className="inline-block mr-2" /> Pending
+          </NavLink>
           <NavLink
             to="/admin/submissions"
             className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
             activeClassName="bg-gray-900"
           >
-           
             <FaEnvelope className="inline-block mr-2" /> Submissions
           </NavLink>
 
@@ -109,8 +108,15 @@ const AdminLayout = ({ children }) => {
             className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
             activeClassName="bg-gray-900"
           >
-           
             <FaEnvelope className="inline-block mr-2" /> Land Rord
+          </NavLink>
+
+          <NavLink
+            to="/admin/contact-us"
+            className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            activeClassName="bg-gray-900"
+          >
+            <FaEnvelope className="inline-block mr-2" /> ContactUs
           </NavLink>
         </nav>
       </aside>
@@ -126,9 +132,9 @@ const AdminLayout = ({ children }) => {
               className="w-10 h-10 rounded-full"
             />
             <Link to={"/"}>
-            <div>
-              <p>Logout</p>
-            </div>
+              <div>
+                <p>Logout</p>
+              </div>
             </Link>
           </div>
         </header>

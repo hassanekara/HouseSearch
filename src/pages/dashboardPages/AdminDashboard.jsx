@@ -11,6 +11,7 @@ import EditHouse from './EditHouse';
 import ViewHouse from './ViewHouse';
 import LandLordsOverview from './chatWithLandLords/LandLordsOverView';
 import ChatWindow from './chatWithLandLords/ChartWindow';
+import ContactUs from './ContactUs';
 
 const AdminDashboard = () => {
   return (
@@ -27,6 +28,7 @@ const AdminDashboard = () => {
         <Route path="chat" element={< ChatWindow/>} />
         <Route path="view-house/:id" element={<ViewHouse />} />
         <Route path="edit-house/:id" element={<EditHouse />} />
+        <Route path="contact-us" element={<ContactUs />} />
         <Route path="*" element={<Navigate to="overview" />} />
       </Routes>
     </AdminLayout>

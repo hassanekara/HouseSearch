@@ -1,28 +1,39 @@
-/* eslint-disable no-undef */
-import {  useState } from "react";
+// SignUp.js
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation, gql } from '@apollo/client';
+
+const SIGN_UP = gql`
+  mutation SignUp($fullName: String!, $username: String!, $telephone: String!, $password: String!) {
+    signUp(fullName: $fullName, username: $username, telephone: $telephone, password: $password) {
+      id
+      fullName
+      username
+      telephone
+    }
+  }
+`;
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [telephone, setTelephone] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
+
   const validateForm = () => {
     const errors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const telephoneRegex = /^[0-9]{10}$/;
 
     if (!fullName) {
       errors.fullName = "Full Name is required";
     }
 
-    if (!email) {
-      errors.email = "Email is required";
-    } else if (!emailRegex.test(email)) {
-      errors.email = "Invalid email address";
+    if (!username) {
+      errors.username = "Username is required";
     }
 
     if (!telephone) {
@@ -40,22 +51,28 @@ const SignUp = () => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      const userData = { fullName, email, telephone, password };
-      localStorage.setItem("userData", JSON.stringify(userData));
-      const sampleLandlords = [
-        { fullName: fullName, email: email }
-      ];
-      localStorage.setItem("landlords", JSON.stringify(sampleLandlords));
+      try {
+        await signUp({
+          variables: {
+            fullName,
+            username,
+            telephone,
+            password
+          }
+        });
+        navigate("/sign-in");
+      } catch (err) {
+        console.error(err);
+      }
     }
-      navigate("/sign-in");
-    };
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 sm:flex-row">
@@ -100,18 +117,18 @@ const SignUp = () => {
           </div>
           <div className="mb-4">
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              Email
+              Username
             </label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
-                errors.email ? "border-red-500" : "border-gray-300"
+                errors.username ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.email && (
-              <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+            {errors.username && (
+              <p className="mt-1 text-xs text-red-500">{errors.username}</p>
             )}
           </div>
           <div className="mb-4">
@@ -119,7 +136,7 @@ const SignUp = () => {
               Telephone
             </label>
             <input
-              type="tel"
+              type="text"
               value={telephone}
               onChange={(e) => setTelephone(e.target.value)}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
@@ -149,13 +166,19 @@ const SignUp = () => {
           <button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={loading}
           >
             Sign Up
           </button>
+          {error && <p className="mt-4 text-xs text-red-500">{error.message}</p>}
+          {data && <p className="mt-4 text-xs text-green-500">Sign Up Successful!</p>}
           <div className="py-2">
-            <p>Do you Already Have an Account ?   <Link to={"/sign-in"}>
-              <span>Sign In</span>
-            </Link> </p>
+            <p>
+              Already have an account?{" "}
+              <Link to={"/sign-in"}>
+                <span>Sign In</span>
+              </Link>
+            </p>
           </div>
         </form>
       </div>

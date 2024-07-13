@@ -8,7 +8,7 @@ const LandLordLayout = ({ children }) => {
     <div className="flex h-screen">
       <aside className="w-64 bg-gray-800 text-white flex-shrink-0">
         <div className="p-4">
-          <h1 className="text-2xl font-bold"> Land Rord Dashboard</h1>
+          <h1 className="text-2xl font-bold"> LandLord Dashboard</h1>
         </div>
         <nav className="mt-4">
           <NavLink
@@ -31,7 +31,6 @@ const LandLordLayout = ({ children }) => {
             className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
             activeClassName="bg-gray-900"
           >
-           
             <FaEnvelope className="inline-block mr-2" /> My Chart
           </NavLink>
         </nav>
