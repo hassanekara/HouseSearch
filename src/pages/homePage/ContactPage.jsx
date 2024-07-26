@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import {  useMutation } from "@apollo/client";
 import { ADD_CONTACT_US_CONTENT, GET_CONTACT_US_CONTENTS } from "../../database/queries/ContactUsQueries";
+
 const ContactPage = () => {
 const [fullName,setFullName] = useState('');
 const [email, setEmail] = useState('');
@@ -8,9 +9,17 @@ const [message, setMessage] = useState('');
 const [addContactUsContent] = useMutation(ADD_CONTACT_US_CONTENT,{
   refetchQueries:[{query:GET_CONTACT_US_CONTENTS}]
 })
+
+const initialContactUsContent =()=>{
+  setEmail("");
+  setFullName("");
+  setMessage("")
+}
 const handleSubmit =(e)=>{
   e.preventDefault();
  addContactUsContent({variables:{fullName,email,message}})
+ alert("Data saved to database is SuccessFully...")
+ initialContactUsContent();
 }
 
   return (

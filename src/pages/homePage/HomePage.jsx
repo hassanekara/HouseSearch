@@ -4,6 +4,7 @@ import HouseCards from "../../components/HouseCards";
 import Navigation from "../../components/Navigation";
 import AboutSection from "./AboutSection";
 import ContactPage from "./ContactPage";
+import ImageUploadTest from "./ImageUploadTest";
 
 function HomePage() {
   return (
@@ -21,6 +22,9 @@ function HomePage() {
       </section>
       <section id="contact">
         <ContactPage />
+      </section>
+      <section>
+        <ImageUploadTest />
       </section>
       <section>
         <Footer/>

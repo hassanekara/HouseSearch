@@ -22,14 +22,32 @@ export const GET_CONTACT_US_CONTENT = gql`
   }
 `;
 
-export const ADD_CONTACT_US_CONTENT = gql `
-mutation AddContactUsContent($fullName: String!, $email: String!, $message: String!) {
-  addContactUsContent(fullName: $fullName, email: $email, message: $message) {
-    id
-    fullName
-    email
+// export const ADD_CONTACT_US_CONTENT = gql `
+// mutation AddContactUsContent($fullName: String!, $email: String!, $message: String!) {
+//   addContactUsContent(fullName: $fullName, email: $email, message: $message) {
+//     id
+//     fullName
+//     email
+//    message
+//  }
+// }
+// `
+export const ADD_CONTACT_US_CONTENT =gql`
+mutation(
+  $fullName:String!
+  $email:String!
+  $message:String!
+){
+  addContactUsContent(
+    input:{
+      fullName:$fullName
+      email:$email
+      message:$message
+    }
+  ){
+    fullName,
+    email,
     message
   }
 }
-
 `
