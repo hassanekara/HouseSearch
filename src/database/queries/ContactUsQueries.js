@@ -51,3 +51,35 @@ mutation(
   }
 }
 `
+
+export const ADD_HOUSE_MUTATION_XX = gql`
+  mutation Mutation($input: HouseInput) {
+    addHouse(input: $input) {
+      id
+      location
+      status
+      price
+      size
+      description
+      numberOfBeds
+    }
+  }
+`;
+
+export const GET_ALL_HOUSES = gql`
+  query GetHouses {
+    getHouses {
+      id
+      location
+      status
+      price
+      size
+      description
+      numberOfBeds
+      images_url {
+        url
+        filename
+      }
+    }
+  }
+`;

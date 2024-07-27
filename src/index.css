@@ -5,3 +5,23 @@
 body{
     scroll-behavior: smooth;
 }
+/* Add this to your CSS file or a <style> tag in your component */
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  td {
+    vertical-align: middle;
+  }
+  

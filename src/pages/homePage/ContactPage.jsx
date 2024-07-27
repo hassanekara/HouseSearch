@@ -18,7 +18,8 @@ const initialContactUsContent =()=>{
 const handleSubmit =(e)=>{
   e.preventDefault();
  addContactUsContent({variables:{fullName,email,message}})
- alert("Data saved to database is SuccessFully...")
+ alert("Data saved to database is SuccessFully...");
+ console.log("Contact Us Content Saved are:",addContactUsContent)
  initialContactUsContent();
 }
 

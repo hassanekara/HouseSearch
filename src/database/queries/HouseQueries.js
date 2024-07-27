@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_HOUSES = gql`
-  query GetHouses {
+  query getHouses {
   getHouses {
     id
     location
@@ -28,35 +28,32 @@ export const GET_ONE_HOUSE = gql`
       size
       description
       image
-      link
       numberOfBeds
-      images
+      images_url
     }
   }
 `;
 
 export const ADD_HOUSE_MUTATION = gql`
-  mutation Mutation(
+  mutation (
     $location: String!
     $status: String!
     $price: Float!
     $size: Float!
     $description: String!
-    $image: String!
-    $link: String!
     $numberOfBeds: Int!
-    $images: [String!]
+    $images_url: [ImageToBeSavedReturned!]
   ) {
     addHouse(
-      location: $location
-      status: $status
-      price: $price
-      size: $size
-      description: $description
-      image: $image
-      link: $link
-      numberOfBeds: $numberOfBeds
-      images: $images
+      input: {
+        location: $location
+        status: $status
+        price: $price
+        size: $size
+        description: $description
+        numberOfBeds: $numberOfBeds
+        images_url: $images_url
+      }
     ) {
       id
       location
@@ -64,10 +61,11 @@ export const ADD_HOUSE_MUTATION = gql`
       price
       size
       description
-      image
-      link
       numberOfBeds
-      images
+      images_url {
+        url
+        filename
+      }
     }
   }
 `;
@@ -80,10 +78,8 @@ export const UPDATE_HOUSE_MUTATION = gql`
     $price: Float
     $size: Float
     $description: String
-    $image: String
-    $link: String
     $numberOfBeds: Int
-    $images: [String!]
+    $images_url: [ImageToBeSavedReturned!]
   ) {
     updateHouse(
       id: $updateHouseId
@@ -92,10 +88,8 @@ export const UPDATE_HOUSE_MUTATION = gql`
       price: $price
       size: $size
       description: $description
-      image: $image
-      link: $link
       numberOfBeds: $numberOfBeds
-      images: $images
+      images_url: $images_url
     ) {
       id
       location
@@ -103,10 +97,8 @@ export const UPDATE_HOUSE_MUTATION = gql`
       price
       size
       description
-      image
-      link
       numberOfBeds
-      images
+      images_url
     }
   }
 `;
@@ -116,3 +108,5 @@ export const DELETE_HOUSE_MUTATION = gql`
     deleteHouse(id: $deleteHouseId)
   }
 `;
+
+console.log("Ok")
