@@ -221,45 +221,6 @@
 // // }
 
 // // export default Houses
-// // export default Houses;
-// import { useQuery } from "@apollo/client"
-// // import { GET_ALL_HOUSES } from "../../database/queries/HouseQueries"
-// import { useNavigate } from "react-router-dom";
-// import { GET_MYHOUSE_DATAS } from "../../database/queries/MyHouseQueries";
-
-// function Houses() {
-//   const {loading, error, data} = useQuery(GET_MYHOUSE_DATAS);
-// const navigate =  useNavigate();
-
-//   if(loading){
-//     return <p>Data is Loading ....</p>;
-//   }
-//   if(error){
-//     return <p>Error:{error.message}</p>
-//   }
-
-//   return (
-//     <div>
-//       <h1>This is House Content</h1>
-//       <div>
-//         <ul>
-//           {data.getMyHouses.map((house)=>(
-//             <li key={house.id} className="py-8" >
-//               <p>House Id:{house.id}</p>
-//               <p>Location:{house.location}</p>
-//               <p>Location:{house.description}</p>
-//               {/* <p>House Size:{house.size}</p>
-//               <p>House Price:{house.price}</p> */}
-//               <button onClick={() => navigate(`/admin/view-house/${house.id}`)}>View More</button>
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Houses
 
 
 // import React from 'react';
@@ -268,21 +229,6 @@ import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import Button1 from "../../components/Button1";
 import { DELETE_MYHOUSE_DATA, GET_MYHOUSE_DATAS } from '../../database/queries/MyHouseQueries';
-// const GET_HOUSES_QUERY = gql`
-//   query GetMyHouses {
-//     getMyHouses {
-//       id
-//       location
-//       description
-//     }
-//   }
-// `;
-
-// const DELETE_HOUSE_MUTATION = gql`
-//   mutation DeleteHouse($id: ID!) {
-//     deleteHouse(id: $id)
-//   }
-// `;
 
 const HouseTable = () => {
   const { loading, error, data } = useQuery(GET_MYHOUSE_DATAS);
@@ -324,7 +270,9 @@ const HouseTable = () => {
         <tr>
           <th>HouseID</th>
           <th>Location</th>
-          <th>Description</th>
+          <th>Price</th>
+          <th>Size</th>
+          <th>Number Of Beds</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -333,7 +281,9 @@ const HouseTable = () => {
           <tr key={house.id}>
             <td>{house.id}</td>
             <td>{house.location}</td>
-            <td>{house.description}</td>
+            <td>{house.price}</td>
+            <td>{house.size}</td>
+            <td>{house.numberOfBeds}</td>
             <td className='flex gap-4'>
               <FaEdit onClick={() => handleUpdate(house.id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
               <FaTrash onClick={() => handleDelete(house.id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
