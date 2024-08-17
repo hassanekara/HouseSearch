@@ -60,6 +60,7 @@ const SignIn = () => {
     }
   };
 
+  console.log("you are welcome")
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 sm:flex-row">
       <div className="w-full sm:w-1/2">
