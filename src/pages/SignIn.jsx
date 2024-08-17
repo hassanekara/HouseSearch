@@ -1,6 +1,8 @@
-/* eslint-disable no-undef */
+// // SignIn.js
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { USER_SIGN_IN_MUTATION } from "../database/queries/Users";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -8,41 +10,53 @@ const SignIn = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  const [signIn, { loading }] = useMutation(USER_SIGN_IN_MUTATION, {
+    onCompleted: (data) => {
+      localStorage.setItem("token", data.signIn.token);
+      localStorage.setItem("user_Id", data.signIn.userId);
+      navigate("/landlord/overview");
+    },
+    onError: (error) => {
+      console.error(error);
+      setErrors({ form: error.message });
+    },
+  });
+  // const myToken = localStorage.getItem('token');
+  // const myUserId = localStorage.getItem("user_Id");
+  // console.log("Login Data of user are----", myToken , myUserId)
+
   const validateForm = () => {
     const errors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if (!email) {
       errors.email = "Email is required";
-    } else if (!emailRegex.test(email)) {
-      errors.email = "Invalid email address";
     }
-
     if (!password) {
       errors.password = "Password is required";
     } else if (password.length < 6) {
       errors.password = "Password must be at least 6 characters";
     }
-
     return errors;
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     const validationErrors = validateForm();
+    e.preventDefault();
+      if (
+      email === "hassanekaranouradine@gmail.com" &&
+        password === "12345hk"
+    ) {
+       navigate("/admin/houses");
+   }
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      if (email === "mhthodol@gmail.com" && password === "123456") {
-        // if (
-        //   email === process.env.REACT_SECRETE_EMAIL &&
-        //   password === process.env.REACT_SECRETE_PASSWORDkkkkk
-        // ) {
-        navigate("/admin/overview");
-      } else {
-        alert("Invalid credentials!");
-      }
+      signIn({
+        variables: {
+          email,
+          password,
+        },
+      });
     }
   };
 
@@ -58,7 +72,7 @@ const SignIn = () => {
       <div className="w-full p-6 sm:w-1/2">
         <Link to={"/"}>
           <button
-            type="submit"
+            type="button"
             className="px-4 my-6 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             Back
@@ -68,16 +82,13 @@ const SignIn = () => {
           onSubmit={handleSubmit}
           className="p-8 bg-white rounded-lg shadow-md"
         >
-          <h2 className="mb-6 text-2xl font-bold text-center">
-            {" "}
-            This is Admin Portal
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-center">Get Logged In</h2>
           <div className="mb-4">
             <label className="block mb-1 text-sm font-medium text-gray-700">
               Email
             </label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
@@ -107,9 +118,21 @@ const SignIn = () => {
           <button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={loading}
           >
             Sign In
           </button>
+          {errors.form && (
+            <p className="mt-4 text-xs text-red-500">{errors.form}</p>
+          )}
+          <div className="py-2">
+            <p>
+              Is this your first time?{" "}
+              <Link to={"/sign-up"}>
+                <span className="text-blue-500">Create an Account</span>
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>

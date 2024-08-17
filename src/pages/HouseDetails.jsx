@@ -1,25 +1,87 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import houseData from "../database/staticDatabase/houseData";
 import SecondNavigation from "../components/SecondNavigation";
+import { useMutation, useQuery } from "@apollo/client";
+import { ADD_REQUEST_MORE_INFO_DATA, GET_ALL_OF_REQUESTED_DATA, GET_ONE_OF_MYHOUSE_DATA } from "../database/queries/MoreHouseDedailsQueries";
 
 const HouseDetails = () => {
-  const { id } = useParams();
-  const house = houseData.find((h) => h.id === parseInt(id));
-  const [checkStatus] = useState(house.status);
-  const [checkPrice] = useState(house.price);
-  const [checkLocation] = useState(house.location);
-  const [checkSize] = useState(house.size);
-  const [checkDescription] = useState(house.description);
 
-  const [selectedImage, setSelectedImage] = useState(house.images[0]);
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [errors, setErrors] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
+  const params = useParams();
+
+  const [createUserRequest] = useMutation(ADD_REQUEST_MORE_INFO_DATA, {
+    refetchQueries: [{ query: GET_ALL_OF_REQUESTED_DATA }],
+  });
+
+  const { loading, error, data } = useQuery(GET_ONE_OF_MYHOUSE_DATA, {
+    variables: { getMyHouseId: params.id },
+  });
+
+  const initialMyHouseData = {
+    fullName: "",
+    email: "",
+    telephone: "",
+    message:
+      "I Choose this house can you give me more details and other  details",
+  };
+  
+  const onSubmit = async (values) => {
+    console.log("You clicked on submit button");
+    console.log("I want to catch values:", values);
+    console.log("The house ID is:", params.id);
+   
+    createUserRequest({
+      variables: {
+        fullName: values.fullName,
+        email: values.email,
+        message: values.message,
+        telephone: values.telephone,
+        house_id:[params.id]
+      },
+    })
+      .then(() => {
+        alert("Data saved to database successfully.");
+    
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error);
+        alert("Error saving data to database.");
+      });
+  };
+
+  const validate = Yup.object({
+    fullName: Yup.string().required("fullName is required"),
+    email: Yup.string().required("email is required"),
+    telephone: Yup.number().required("Telephone Number is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: initialMyHouseData,
+    onSubmit: onSubmit,
+    validationSchema: validate,
+  });
+
+  useEffect(() => {
+    if (data && data.getMyHouse && data.getMyHouse.images_url.length > 0) {
+      setSelectedImage(data.getMyHouse.images_url[0].url);
+    }
+  }, [data]);
+
+  if (loading) {
+    return <p>Data is Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading house details</p>;
+  }
+
+  const house = data?.getMyHouse;
 
   if (!house) {
     return <div>House not found</div>;
@@ -27,42 +89,6 @@ const HouseDetails = () => {
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!form.name) newErrors.name = "Full name is required";
-    if (!form.email) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(form.email))
-      newErrors.email = "Email is invalid";
-    if (!form.message) newErrors.message = "Message is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-      submissions.push({ //Send All Data to Local Storage
-        ...form,
-        houseId: id,
-        houseStatus: checkStatus,
-        housePrice: checkPrice,
-        houseDescription: checkDescription,
-        houseSize: checkSize,
-        houseLocation: checkLocation,
-        date: new Date(),
-      });
-      localStorage.setItem("submissions", JSON.stringify(submissions));
-      setForm({ name: "", email: "", message: "" });
-      alert("Form submitted successfully");
-    }
   };
 
   const thumbSliderSettings = {
@@ -78,24 +104,25 @@ const HouseDetails = () => {
 
   return (
     <div>
-           <SecondNavigation />
-
+      <SecondNavigation />
 
       <div className="p-4 md:p-8 bg-gray-100">
         <div className="max-w-4xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-md">
           <div className="mb-4">
-            <img
-              src={selectedImage}
-              alt="Main"
-              className="w-full h-96 object-cover rounded-md"
-            />
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Main"
+                className="w-full h-96 object-cover rounded-md"
+              />
+            )}
           </div>
           <div className="mb-4">
             <Slider {...thumbSliderSettings}>
-              {house.images.map((image, index) => (
-                <div key={index} onClick={() => handleImageClick(image)}>
+              {house.images_url.map((image, index) => (
+                <div key={index} onClick={() => handleImageClick(image.url)}>
                   <img
-                    src={image}
+                    src={image.url}
                     alt={`Thumbnail ${index}`}
                     className="w-full h-20 object-cover rounded-md cursor-pointer"
                   />
@@ -105,15 +132,11 @@ const HouseDetails = () => {
           </div>
           <h2 className="text-2xl font-bold mb-4">{house.location}</h2>
           <p className="text-xl mb-2">Price: Rwf {house.price}</p>
-          <p className="text-xl mb-2">Size: {house.size} sq ft</p>
+          <p className="text-xl mb-2">fullName: {house.fullName} sq ft</p>
           <p className="text-xl mb-2">
             Number of Beds: {house.numberOfBeds} Beds
           </p>
           <p className="mb-4">{house.description}</p>
-          <div className="mb-4">
-            <h3 className="text-xl font-bold mb-2">More Details</h3>
-            <p>{house.details}</p>
-          </div>
           <button
             onClick={() => window.history.back()}
             className="px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 mb-4"
@@ -121,6 +144,96 @@ const HouseDetails = () => {
             Back
           </button>
           <form
+            encType="multipart/form-data"
+            onSubmit={formik.handleSubmit}
+            role="form"
+            className="bg-white p-6 rounded-lg shadow-lg"
+          >
+            <div className="mb-4">
+              <label htmlFor="fullName" className="block text-gray-700">
+                fullName
+              </label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                role="fullName"
+                value={formik.values.fullName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter your Full Name"
+                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+              />
+              {formik.touched.fullName && formik.errors.fullName ? (
+                <div className="text-red-500">{formik.errors.fullName}</div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                role="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter your Email"
+                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="text-red-500">{formik.errors.email}</div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="telephone" className="block text-gray-700">
+                Telephone
+              </label>
+              <input
+                type="tel"
+                id="telephone"
+                name="telephone"
+                role="telephone"
+                value={formik.values.telephone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter your Telephone Number"
+                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+              />
+              {formik.touched.telephone && formik.errors.telephone ? (
+                <div className="text-red-500">{formik.errors.telephone}</div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="message" className="block text-gray-700">
+                message
+              </label>
+              <textarea
+                name="message"
+                role="message"
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full px-4 py-2 border rounded-md"
+                placeholder="Your message"
+                rows="4"
+              />
+              {formik.touched.message && formik.errors.message ? (
+                <div className="text-red-500">{formik.errors.message}</div>
+              ) : null}
+            </div>
+
+            <button
+              type="submit"
+              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
+            >
+              Submit
+            </button>
+          </form>
+
+          {/* <form
             onSubmit={handleSubmit}
             className="bg-gray-100 p-4 rounded-lg shadow-md"
           >
@@ -154,6 +267,20 @@ const HouseDetails = () => {
               )}
             </div>
             <div className="mb-4">
+              <label className="block mb-2">Telephone</label>
+              <input
+                type="number"
+                name="telephone"
+                value={form.telephone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md"
+                placeholder="Your Telephone Number"
+              />
+              {errors.telephone && (
+                <span className="text-red-500">{errors.telephone}</span>
+              )}
+            </div>
+            <div className="mb-4">
               <label className="block mb-2">Message</label>
               <textarea
                 name="message"
@@ -173,16 +300,15 @@ const HouseDetails = () => {
             >
               Submit
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>
   );
 };
 
-const PrevArrow = ({ onClick }) => (
+const PrevArrow = () => (
   <button
-    onClick={onClick}
     className="absolute left-0 z-10 p-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2 hover:bg-blue-700"
     style={{ zIndex: 1 }}
   >
@@ -190,9 +316,8 @@ const PrevArrow = ({ onClick }) => (
   </button>
 );
 
-const NextArrow = ({ onClick }) => (
+const NextArrow = () => (
   <button
-    onClick={onClick}
     className="absolute right-0 z-10 p-2 transform -translate-y-1/2 bg-blue-500 rounded-full top-1/2 hover:bg-blue-700"
     style={{ zIndex: 1 }}
   >

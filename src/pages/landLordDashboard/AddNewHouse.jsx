@@ -4,10 +4,7 @@ import { useMutation } from "@apollo/client";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  ADD_MYHOUSE_DATA,
-  GET_ONE_OF_MYHOUSE_DATA,
-} from "../../database/queries/MyHouseQueries";
+import { ADD_MYHOUSE_DATA, GET_ONE_OF_MYHOUSE_DATA } from "../../database/queries/MyHouseQueries";
 
 const AddNewHouse = () => {
   const [location, setLocation] = useState("");
@@ -15,10 +12,15 @@ const AddNewHouse = () => {
   const [price, setPrice] = useState(0);
   const [size, setSize] = useState(0);
   const [numberOfBeds, setNumberOfBeds] = useState(0);
-  
+
   const [addMyHouse] = useMutation(ADD_MYHOUSE_DATA, {
     refetchQueries: [{ query: GET_ONE_OF_MYHOUSE_DATA }],
   });
+
+  const myToken = localStorage.getItem('token');
+  const myUserId = localStorage.getItem("user_Id");
+  console.log("Login Data of user are----", myToken)
+  console.log("Login Data of user ID::::",myUserId)
 
   const resetMyHouseData = () => {
     setLocation("");
@@ -34,7 +36,7 @@ const AddNewHouse = () => {
     price: 0,
     numberOfBeds: 0,
     image: "",
-    status:"unRented",
+    status: "unRented",
     images_url: "",
     image_cover: "",
     description: "",
@@ -50,11 +52,14 @@ const AddNewHouse = () => {
 
   const saveCoverImageToCloudinary = async (coverImage) => {
     try {
-      const resultOfOneImage= await axios.post(
+      const resultOfOneImage = await axios.post(
         `http://localhost:2000/multiple_images-upload`,
         coverImage
       );
-      console.log("This is a result of One Image from Claudinary", resultOfOneImage.data)
+      console.log(
+        "This is a result of One Image from Claudinary",
+        resultOfOneImage.data
+      );
       return resultOfOneImage.data;
     } catch (error) {
       console.error("There was an Error of Saving Image to cloudinary:", error);
@@ -80,7 +85,9 @@ const AddNewHouse = () => {
 
     const formDataCoverImage = packFiles(values.CoverImage);
     const formData = packFiles(values.arrayOfImages);
-    const savedCoverImage = await saveCoverImageToCloudinary(formDataCoverImage);
+    const savedCoverImage = await saveCoverImageToCloudinary(
+      formDataCoverImage
+    );
     const savedImagesData = await saveImagesToCloudinary(formData);
 
     if (!savedImagesData || !savedCoverImage) {
@@ -100,10 +107,11 @@ const AddNewHouse = () => {
         description: values.description,
         price: parseInt(values.price),
         size: parseInt(values.size),
-        status:"unRented",
+        status: "unRented",
         numberOfBeds: parseInt(values.numberOfBeds),
         images_url: savedImagesData,
         image_cover: savedCoverImage,
+        user_id:myUserId,
       },
     })
       .then(() => {

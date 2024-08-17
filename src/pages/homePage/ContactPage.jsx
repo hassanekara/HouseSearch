@@ -1,16 +1,42 @@
+import { useState } from "react";
+import {  useMutation } from "@apollo/client";
+import { ADD_CONTACT_US_CONTENT, GET_CONTACT_US_CONTENTS } from "../../database/queries/ContactUsQueries";
+
 const ContactPage = () => {
+const [fullName,setFullName] = useState('');
+const [email, setEmail] = useState('');
+const [message, setMessage] = useState('');
+const [addContactUsContent] = useMutation(ADD_CONTACT_US_CONTENT,{
+  refetchQueries:[{query:GET_CONTACT_US_CONTENTS}]
+})
+
+const initialContactUsContent =()=>{
+  setEmail("");
+  setFullName("");
+  setMessage("")
+}
+const handleSubmit =(e)=>{
+  e.preventDefault();
+ addContactUsContent({variables:{fullName,email,message}})
+ alert("Data saved to database is SuccessFully...");
+ console.log("Contact Us Content Saved are:",addContactUsContent)
+ initialContactUsContent();
+}
+
   return (
     <div className="flex flex-col md:flex-row items-center py-8 bg-gray-100">
       <div className="w-full md:w-1/2 px-4">
         <h2 className="text-3xl mb-4 text-gray-800">Contact Us</h2>
-        <form className="bg-white p-6 rounded-lg shadow-lg">
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg">
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700">
-              Name
+              Full Name
             </label>
             <input
               type="text"
               id="name"
+              value={fullName}
+              onChange={(e)=>setFullName(e.target.value)}
               className="w-full mt-2 p-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -21,6 +47,8 @@ const ContactPage = () => {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               className="w-full mt-2 p-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -30,6 +58,8 @@ const ContactPage = () => {
             </label>
             <textarea
               id="message"
+              value={message}
+              onChange={(e)=>setMessage(e.target.value)}
               className="w-full mt-2 p-2 border border-gray-300 rounded-md"
             ></textarea>
           </div>

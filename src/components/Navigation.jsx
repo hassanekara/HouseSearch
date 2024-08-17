@@ -92,18 +92,13 @@ const Navigation = () => {
                 Contact
               </a>
             </li>
-            <ul className="lg:flex lg:items-center">
-              <Link to={"/sign-in"}>
-                <li className="text-white lg:mx-2 my-2 lg:my-0">
-                  <a
-                    href="#contact"
-                    className="block px-3 py-2 rounded-md hover:bg-gray-700"
-                  >
-                    Admin.....
-                  </a>
-                </li>
-              </Link>
-            </ul>
+            <Link to={"/sign-in"}>
+            <li className="text-white lg:mx-2 my-2 lg:my-0 bg-blue-500 rounded-sm ">
+              <a href="#contact" className="block px-3 py-2  hover:bg-blue-700 font-medium">Sign In</a>
+            </li>
+            </Link>
+
+    
           </ul>
         </div>
       </div>

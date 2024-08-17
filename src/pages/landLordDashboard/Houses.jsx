@@ -37,7 +37,7 @@ const HouseTable = () => {
     <div>
       <div className="flex justify-between items-center">
            <h2 className="text-2xl font-bold mb-4">Houses</h2>
-           <Link to="/admin/add-new-house">
+           <Link to="/landlord/add-new-house">
              <Button1 title="Add New House" icon="+" />
            </Link>
          </div>
