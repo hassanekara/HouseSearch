@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react';
 
 const Submissions = () => {
   const [submissions, setSubmissions] = useState([]);
-  // const [showMoreContent, setShowMoreContent] = useState(false);
 
+  useEffect(() => {
+    const storedSubmissions =
+      JSON.parse(localStorage.getItem("submissions")) || [];
+    // const [showMoreContent, setShowMoreContent] = useState(false);
+  });
   useEffect(() => {
     const storedSubmissions =
       JSON.parse(localStorage.getItem("submissions")) || [];
     setSubmissions(storedSubmissions);
   }, []);
-
+  
   return (
     <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Submissions</h2>

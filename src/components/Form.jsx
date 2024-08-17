@@ -20,8 +20,8 @@ const Form = ({ onFilter }) => {
   };
 
   const applyFilters = () => {
-    if (!minPrice || !maxPrice) {
-      alert("Please ");
+    if (!minPrice || !maxPrice || isNaN(minPrice) || isNaN(maxPrice)) {
+      alert("Please enter valid min and max price.");
       return;
     }
 

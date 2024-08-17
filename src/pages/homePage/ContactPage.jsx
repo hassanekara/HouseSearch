@@ -78,10 +78,10 @@ const handleSubmit =(e)=>{
           form or contact us directly via phone or email.
         </p>
         <p className="text-gray-600 mb-4">
-          <strong>Phone:</strong> +123 456 7890
+          <strong>Phone:</strong> +250 791 431 668
         </p>
         <p className="text-gray-600 mb-4">
-          <strong>Email:</strong> support@timtomaviation.com
+          <strong>Email:</strong> nhassanekara@gmail.com
         </p>
         <div className="flex space-x-4">
           <a
@@ -96,7 +96,7 @@ const handleSubmit =(e)=>{
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-400 hover:underline"
+            className="text-blue-700 hover:underline"
           >
             Twitter
           </a>
