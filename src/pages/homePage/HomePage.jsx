@@ -10,7 +10,6 @@ function HomePage() {
   return (
     <div>
         <Navigation />
-
       <section id="home">
         <Form />
       </section>

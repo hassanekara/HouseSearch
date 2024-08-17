@@ -12,6 +12,7 @@ import ViewHouse from './ViewHouse';
 import LandLordsOverview from './chatWithLandLords/LandLordsOverView';
 import ChatWindow from './chatWithLandLords/ChartWindow';
 import ContactUs from './ContactUs';
+import RequestedHouses from './RequestedHouses';
 
 const AdminDashboard = () => {
   return (
@@ -20,6 +21,7 @@ const AdminDashboard = () => {
         <Route path="overview" element={<Overview />} />
         <Route path="houses" element={<Houses />} />
         <Route path="submissions" element={<Submissions />} />
+        <Route path="requested-houses-users" element={<RequestedHouses />} />
         <Route path="rented" element={<RentedHouses />} />
         <Route path="unrented" element={<UnRentedHouses />} />
         <Route path="pending" element={<PendingHouses />} />

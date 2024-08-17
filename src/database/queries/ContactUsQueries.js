@@ -22,16 +22,6 @@ export const GET_CONTACT_US_CONTENT = gql`
   }
 `;
 
-// export const ADD_CONTACT_US_CONTENT = gql `
-// mutation AddContactUsContent($fullName: String!, $email: String!, $message: String!) {
-//   addContactUsContent(fullName: $fullName, email: $email, message: $message) {
-//     id
-//     fullName
-//     email
-//    message
-//  }
-// }
-// `
 export const ADD_CONTACT_US_CONTENT =gql`
 mutation(
   $fullName:String!
@@ -52,34 +42,3 @@ mutation(
 }
 `
 
-export const ADD_HOUSE_MUTATION_XX = gql`
-  mutation Mutation($input: HouseInput) {
-    addHouse(input: $input) {
-      id
-      location
-      status
-      price
-      size
-      description
-      numberOfBeds
-    }
-  }
-`;
-
-export const GET_ALL_HOUSES = gql`
-  query GetHouses {
-    getHouses {
-      id
-      location
-      status
-      price
-      size
-      description
-      numberOfBeds
-      images_url {
-        url
-        filename
-      }
-    }
-  }
-`;

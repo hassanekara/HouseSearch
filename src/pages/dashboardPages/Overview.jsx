@@ -1,26 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { FaBell, FaUserCircle } from 'react-icons/fa';
-import houseData from '../../database/staticDatabase/houseData';
+// import houseData from '../../database/staticDatabase/houseData';
+import { useQuery } from '@apollo/client';
+import { GET_MYHOUSE_DATAS } from '../../database/queries/MyHouseQueries';
 
 const Overview = () => {
   const [submissions, setSubmissions] = useState([]);
-  const [selectedMenu, setSelectedMenu] = useState('overview');
-
-  useEffect(() => {
-    const storedSubmissions = JSON.parse(localStorage.getItem('submissions')) || [];
-    setSubmissions(storedSubmissions);
-  }, []);
+  const [selectedMenu] = useState('overview');
+  const {data,loading,error} = useQuery(GET_MYHOUSE_DATAS)
+  const houseData = data.getMyHouses;
 
   const overviewData = houseData.reduce(
     (acc, house) => {
       acc[house.location] = (acc[house.location] || 0) + 1;
       if (house.status === 'rented') acc.rented += 1;
       if (house.status === 'pending') acc.pending += 1;
-      if (house.status === 'unrented') acc.unrented += 1;
+      if (house.status === 'unRented') acc.unRented += 1;
       return acc;
     },
-    { rented: 0, pending: 0, unrented: 0 }
+    { rented: 0, pending: 0, unRented: 0 }
   );
 
   return (
@@ -34,7 +33,11 @@ const Overview = () => {
                 <h3 className="text-xl font-bold">Total Houses</h3>
                 <p>{houseData.length}</p>
               </div>
-              <div className="p-4 bg-white rounded-lg shadow-md">
+              <div>
+                <h1 className='font-bold py-2'>Houses by Status</h1>
+            <div className='bg-white p-8 flex flex-col gap-4'>
+
+            <div className="p-4 bg-white rounded-lg shadow-md">
                 <h3 className="text-xl font-bold">Rented Houses</h3>
                 <p>{overviewData.rented}</p>
               </div>
@@ -43,20 +46,27 @@ const Overview = () => {
                 <p>{overviewData.pending}</p>
               </div>
               <div className="p-4 bg-white rounded-lg shadow-md">
-                <h3 className="text-xl font-bold">Unrented Houses</h3>
-                <p>{overviewData.unrented}</p>
+                <h3 className="text-xl font-bold">UnRented Houses</h3>
+                <p>{overviewData.unRented}</p>
               </div>
+            </div>
+            </div>
+            <div>
+            <h1 className='font-bold py-2'>Houses by Location</h1>
+            <div className='bg-white p-8 flex flex-col gap-4'>
               {Object.keys(overviewData).map(
                 (location) =>
                   location !== 'rented' &&
                   location !== 'pending' &&
-                  location !== 'unrented' && (
+                  location !== 'unRented' && (
                     <div key={location} className="p-4 bg-white rounded-lg shadow-md">
                       <h3 className="text-xl font-bold">{location}</h3>
                       <p>{overviewData[location]}</p>
                     </div>
                   )
               )}
+              </div>
+            </div>
             </div>
           </div>
         )}

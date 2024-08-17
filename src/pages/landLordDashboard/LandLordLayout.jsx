@@ -4,6 +4,11 @@ import { FaBell, FaHome, FaList, FaEnvelope } from 'react-icons/fa';
 import { Link, NavLink } from 'react-router-dom';
 
 const LandLordLayout = ({ children }) => {
+  const logoutHandling = () =>{
+    alert("Do you want to logout?")
+    localStorage.removeItem("tokenData");
+    localStorage.clear("tokenData");
+  }
   return (
     <div className="flex h-screen">
       <aside className="w-64 bg-gray-800 text-white flex-shrink-0">
@@ -47,7 +52,7 @@ const LandLordLayout = ({ children }) => {
               className="w-10 h-10 rounded-full"
             />
             <Link to={"/"}>
-            <div>
+            <div onClick={logoutHandling}>
               <p>Logout</p>
             </div>
             </Link>

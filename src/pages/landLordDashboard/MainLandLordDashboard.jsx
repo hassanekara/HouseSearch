@@ -18,7 +18,7 @@ const MainLandLordDashboard = () => {
         <Route path="add-new-house" element={<AddNewHouse />} />
         <Route path="view-house/:id" element={<ViewHouse />} />
         <Route path="edit-house/:id" element={<EditHouse />} />
-        <Route path="*" element={<Navigate to="overview" />} />
+        <Route path="*" element={<Navigate to="houses" />} />
       </Routes>
     </LandLordLayout>
   );

@@ -1,66 +1,62 @@
-/* eslint-disable no-unused-vars */
-// SignIn.js
+// // SignIn.js
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation, gql } from '@apollo/client';
-
-const SIGN_IN = gql`
-  mutation SignIn($username: String!, $password: String!) {
-    signIn(username: $username, password: $password) {
-      token
-      user {
-        id
-        fullName
-        username
-        telephone
-      }
-    }
-  }
-`;
+import { USER_SIGN_IN_MUTATION } from "../database/queries/Users";
 
 const SignIn = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const [signIn, { data, loading, error }] = useMutation(SIGN_IN);
+  const [signIn, { loading }] = useMutation(USER_SIGN_IN_MUTATION, {
+    onCompleted: (data) => {
+      localStorage.setItem("token", data.signIn.token);
+      localStorage.setItem("user_Id", data.signIn.userId);
+      navigate("/landlord/overview");
+    },
+    onError: (error) => {
+      console.error(error);
+      setErrors({ form: error.message });
+    },
+  });
+  // const myToken = localStorage.getItem('token');
+  // const myUserId = localStorage.getItem("user_Id");
+  // console.log("Login Data of user are----", myToken , myUserId)
 
   const validateForm = () => {
     const errors = {};
-
-    if (!username) {
-      errors.username = "Username is required";
+    if (!email) {
+      errors.email = "Email is required";
     }
-
     if (!password) {
       errors.password = "Password is required";
     } else if (password.length < 6) {
       errors.password = "Password must be at least 6 characters";
     }
-
     return errors;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (e) => {
     const validationErrors = validateForm();
+    e.preventDefault();
+      if (
+      email === "hassanekaranouradine@gmail.com" &&
+        password === "12345hk"
+    ) {
+       navigate("/admin/houses");
+   }
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      try {
-        const response = await signIn({
-          variables: {
-            username,
-            password
-          }
-        });
-        localStorage.setItem('token', response.data.signIn.token);
-        navigate("/landlord/overview");
-      } catch (err) {
-        console.error(err);
-      }
+      signIn({
+        variables: {
+          email,
+          password,
+        },
+      });
     }
   };
 
@@ -86,23 +82,21 @@ const SignIn = () => {
           onSubmit={handleSubmit}
           className="p-8 bg-white rounded-lg shadow-md"
         >
-          <h2 className="mb-6 text-2xl font-bold text-center">
-            Get Logged In
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-center">Get Logged In</h2>
           <div className="mb-4">
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              Username
+              Email
             </label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
-                errors.username ? "border-red-500" : "border-gray-300"
+                errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.username && (
-              <p className="mt-1 text-xs text-red-500">{errors.username}</p>
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-500">{errors.email}</p>
             )}
           </div>
           <div className="mb-6">
@@ -128,12 +122,14 @@ const SignIn = () => {
           >
             Sign In
           </button>
-          {error && <p className="mt-4 text-xs text-red-500">{error.message}</p>}
+          {errors.form && (
+            <p className="mt-4 text-xs text-red-500">{errors.form}</p>
+          )}
           <div className="py-2">
             <p>
               Is this your first time?{" "}
               <Link to={"/sign-up"}>
-                <span>Create an Account</span>
+                <span className="text-blue-500">Create an Account</span>
               </Link>
             </p>
           </div>

@@ -96,11 +96,11 @@ const AdminLayout = ({ children }) => {
             <FaList className="inline-block mr-2" /> Pending
           </NavLink>
           <NavLink
-            to="/admin/submissions"
+            to="/admin/requested-houses-users"
             className="block px-4 py-2 text-gray-200 hover:bg-gray-700"
             activeClassName="bg-gray-900"
           >
-            <FaEnvelope className="inline-block mr-2" /> Submissions
+            <FaEnvelope className="inline-block mr-2" /> All Requests
           </NavLink>
 
           <NavLink

@@ -1,78 +1,60 @@
 // SignUp.js
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation, gql } from '@apollo/client';
-
-const SIGN_UP = gql`
-  mutation SignUp($fullName: String!, $username: String!, $telephone: String!, $password: String!) {
-    signUp(fullName: $fullName, username: $username, telephone: $telephone, password: $password) {
-      id
-      fullName
-      username
-      telephone
-    }
-  }
-`;
+import { useMutation } from "@apollo/client";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { ADD_USER_DATA, GET_ALL_USERS_DATAS } from "../database/queries/Users";
 
 const SignUp = () => {
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
+  const [signUp] = useMutation(ADD_USER_DATA, {
+    refetchQueries: [{ query: GET_ALL_USERS_DATAS }],
+  });
 
-  const validateForm = () => {
-    const errors = {};
-    const telephoneRegex = /^[0-9]{10}$/;
-
-    if (!fullName) {
-      errors.fullName = "Full Name is required";
-    }
-
-    if (!username) {
-      errors.username = "Username is required";
-    }
-
-    if (!telephone) {
-      errors.telephone = "Telephone is required";
-    } else if (!telephoneRegex.test(telephone)) {
-      errors.telephone = "Invalid telephone number";
-    }
-
-    if (!password) {
-      errors.password = "Password is required";
-    } else if (password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
-    }
-
-    return errors;
+  const initialUser = {
+    fullName: "",
+    email: "",
+    password: "",
+    telephone: "",
+    role: "Landrold",
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-    } else {
-      setErrors({});
-      try {
-        await signUp({
-          variables: {
-            fullName,
-            username,
-            telephone,
-            password
-          }
-        });
+  const onSubmit = async (values) => {
+    console.log("You clicked on submit button");
+    console.log("I want to catch values:", values);
+
+    signUp({
+      variables: {
+        fullName: values.fullName,
+        email: values.email,
+        telephone: values.telephone,
+        password: values.password,
+        role: "Landrold",
+      },
+    })
+      .then(() => {
+        alert("Data saved to database successfully.");
         navigate("/sign-in");
-      } catch (err) {
-        console.error(err);
-      }
-    }
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error);
+        alert("Error saving data to database.");
+      });
   };
+
+  const validate = Yup.object({
+    fullName: Yup.string().required("fullName is required"),
+    telephone: Yup.string().required("telephone is required"),
+    email: Yup.string().required("email is required"),
+    password: Yup.string().required("Password is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: initialUser,
+    onSubmit: onSubmit,
+    validationSchema: validate,
+  });
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 sm:flex-row">
@@ -92,94 +74,97 @@ const SignUp = () => {
             Back
           </button>
         </Link>
+
         <form
-          onSubmit={handleSubmit}
-          className="p-8 bg-white rounded-lg shadow-md"
+          encType="multipart/form-data"
+          onSubmit={formik.handleSubmit}
+          role="form"
+          className="bg-white p-6 rounded-lg shadow-lg"
         >
-          <h2 className="mb-6 text-2xl font-bold text-center">
-            Sign Up
-          </h2>
           <div className="mb-4">
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Full Name
+            <label htmlFor="fullName" className="block text-gray-700">
+              Your Full Name
             </label>
             <input
               type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
-                errors.fullName ? "border-red-500" : "border-gray-300"
-              }`}
+              id="fullName"
+              name="fullName"
+              role="fullName"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter your Full Name"
+              className="w-full mt-2 p-2 border border-gray-300 rounded-md"
             />
-            {errors.fullName && (
-              <p className="mt-1 text-xs text-red-500">{errors.fullName}</p>
-            )}
+            {formik.touched.fullName && formik.errors.fullName ? (
+              <div className="text-red-500">{formik.errors.fullName}</div>
+            ) : null}
           </div>
+
           <div className="mb-4">
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Username
-            </label>
-            <input
-              type="email"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
-                errors.username ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.username && (
-              <p className="mt-1 text-xs text-red-500">{errors.username}</p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Telephone
+            <label htmlFor="email" className="block text-gray-700">
+              Your Email
             </label>
             <input
               type="text"
-              value={telephone}
-              onChange={(e) => setTelephone(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
-                errors.telephone ? "border-red-500" : "border-gray-300"
-              }`}
+              id="email"
+              name="email"
+              role="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter your Email"
+              className="w-full mt-2 p-2 border border-gray-300 rounded-md"
             />
-            {errors.telephone && (
-              <p className="mt-1 text-xs text-red-500">{errors.telephone}</p>
-            )}
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-red-500">{formik.errors.email}</div>
+            ) : null}
           </div>
-          <div className="mb-6">
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Password
+
+          <div className="mb-4">
+            <label htmlFor="telephone" className="block text-gray-700">
+              Telephone Number
+            </label>
+            <input
+              type="text"
+              id="telephone"
+              name="telephone"
+              role="telephone"
+              value={formik.values.telephone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter your Telephone number"
+              className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+            />
+            {formik.touched.telephone && formik.errors.telephone ? (
+              <div className="text-red-500">{formik.errors.telephone}</div>
+            ) : null}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-gray-700">
+              password
             </label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              }`}
+              id="password"
+              name="password"
+              role="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full mt-2 p-2 border border-gray-300 rounded-md"
             />
-            {errors.password && (
-              <p className="mt-1 text-xs text-red-500">{errors.password}</p>
-            )}
+            {formik.touched.password && formik.errors.password ? (
+              <div className="text-red-500">{formik.errors.password}</div>
+            ) : null}
           </div>
+
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            disabled={loading}
+            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
           >
-            Sign Up
+            Submit
           </button>
-          {error && <p className="mt-4 text-xs text-red-500">{error.message}</p>}
-          {data && <p className="mt-4 text-xs text-green-500">Sign Up Successful!</p>}
-          <div className="py-2">
-            <p>
-              Already have an account?{" "}
-              <Link to={"/sign-in"}>
-                <span>Sign In</span>
-              </Link>
-            </p>
-          </div>
         </form>
       </div>
     </div>
